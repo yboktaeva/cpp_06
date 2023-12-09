@@ -6,7 +6,7 @@
 /*   By: yuboktae <yuboktae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 14:17:01 by yuliaboktae       #+#    #+#             */
-/*   Updated: 2023/12/09 19:24:35 by yuboktae         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:47:12 by yuboktae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ float ScalarConverter::toFloat(std::string str) {
             f = static_cast<float>(str[0]);
         if (str[0] == '-')
             f = static_cast<float>(-atof(str.c_str() + 1));
-        else
+        else if (isdigit(str[0]))
             f = static_cast<float>(atof(str.c_str()));
         if (f == 0 && str[0] != '0')
             throw std::invalid_argument("Invalid argument");
@@ -109,7 +109,7 @@ double ScalarConverter::toDouble(std::string str) {
             d = static_cast<double>(str[0]);
         if (str[0] == '-')
             d = static_cast<double>(-atof(str.c_str() + 1));
-        else
+        else if (isdigit(str[0]))
             d = static_cast<double>(atof(str.c_str()));
         if (d == 0 && str[0] != '0')
             throw std::invalid_argument("Invalid argument");
@@ -127,6 +127,17 @@ double ScalarConverter::toDouble(std::string str) {
 }
 
 void ScalarConverter::convert(std::string str) {
+    
+    std::string str1[6] = {"-inf", "+inf","nan", "-inff", "+inff", "nanf"};
+    for (int i = 0; i < 6; i++) {
+        if (str == str1[i]) {
+            std::cout << RED << "char: impossible" << RESET << std::endl;
+            std::cout << RED << "int: impossible" << RESET << std::endl;
+            std::cout << GREEN << "float: " << str1[i] << RESET << std::endl;
+            std::cout << GREEN << "double: " << str1[i] << RESET << std::endl;
+            return ;
+        }
+    }
     toChar(str);
     toInt(str);
     toFloat(str);
