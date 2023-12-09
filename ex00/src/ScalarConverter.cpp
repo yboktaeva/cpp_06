@@ -6,7 +6,7 @@
 /*   By: yuboktae <yuboktae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 14:17:01 by yuliaboktae       #+#    #+#             */
-/*   Updated: 2023/12/08 19:02:58 by yuboktae         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:24:35 by yuboktae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,65 +26,107 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &src) {
     return *this;
 }
 
-static char toChar(std:: string str) {
+char ScalarConverter::toChar(std:: string str) {
     char c;
     try {
-        c = static_cast<char>(std::stoi(str));
+        if (std::isnan(atof(str.c_str())) || std::isinf(atof(str.c_str()))) {
+            throw std::invalid_argument("Invalid argument");
+        }
+        if (!isdigit(str[0]) && str.length() == 1 && std::isprint(static_cast<unsigned char>(str[0])))
+            c = static_cast<char>(str[0]);
+        else if (isdigit(str[0]))
+            c = static_cast<char>(atoi(str.c_str()));
+        else
+            throw std::invalid_argument("Invalid argument");
+        if (!std::isprint(static_cast<unsigned char>(c)))
+            std::cout << RED << "char: Non displayable" << RESET << std::endl;
+        else
+            std::cout << GREEN << "char: " << c << RESET << std::endl;
     }
-    catch (std::exception &e) {
+    catch (const std::invalid_argument &e) {
         std::cout << RED << "char: impossible" << RESET << std::endl;
         return 0;
     }
-    if (c < 32 || c > 126)
-        std::cout << RED << "char: Non displayable" << RESET << std::endl;
-    else
-        std::<< cout << GREEN << "char: " << c << RESET << std::endl;
     return c;
 }
 
-static int toInt(std::string str) {
+int ScalarConverter::toInt(std::string str) {
     int i;
     try {
-        i = static_cast<int>(std::stoi(str));
+        if (std::isnan(atof(str.c_str())) || std::isinf(atof(str.c_str()))) {
+            throw std::invalid_argument("Invalid argument");
+        }
+        if (!isdigit(str[0]) && str.length() == 1)
+            i = static_cast<int>(str[0]);
+        if (str[0] == '-')
+            i = static_cast<int>(-atoi(str.c_str() + 1));
+        else if (isdigit(str[0]))
+            i = static_cast<int>(atoi(str.c_str()));
+        if (i == 0 && str[0] != '0')
+            throw std::invalid_argument("Invalid argument");
+        for (size_t j = 1; j < str.size(); ++j) {
+            if (!isdigit(str[j]) && str[j] != '.' && str[j] != 'f')
+                throw std::invalid_argument("Invalid argument");
+        }
+        std::cout << GREEN << "int: " << i << RESET << std::endl;
     }
-    catch (std::exeption &e) {
+    catch (const std::invalid_argument &e) {
         std::cout << RED << "int: impossible" << RESET << std::endl;
         return 0;
     }
-    std::cout << GREEN << "int: " << i << RESET << std::endl;
     return i;
 }
 
-static float toFloat(std::string str) {
+float ScalarConverter::toFloat(std::string str) {
     float f;
     try {
-        f = static_cast<float>(std::stof(str));
+        if (!isdigit(str[0]) && str.length() == 1)
+            f = static_cast<float>(str[0]);
+        if (str[0] == '-')
+            f = static_cast<float>(-atof(str.c_str() + 1));
+        else
+            f = static_cast<float>(atof(str.c_str()));
+        if (f == 0 && str[0] != '0')
+            throw std::invalid_argument("Invalid argument");
+        // for (size_t j = 1; j < str.size(); ++j) {
+        //     if (!isdigit(str[j]) && str[j] != '.' && str[j] != 'f')
+        //         throw std::invalid_argument("Invalid argument");
+        //}
+        std::cout << GREEN << "float: " << std::fixed << std::setprecision(1) << f << "f" << RESET << std::endl;
+        
     }
-    catch (std::exeption &e) {
+    catch (std::exception &e) {
         std::cout << RED << "float: impossible" << RESET << std::endl;
         return 0;
     }
-    try {
-        
-    }
-    std::cout << GREEN << "float: " << f << "f" << RESET << std::endl;
     return f;
 }
 
-static double toDouble(std::string str) {
+double ScalarConverter::toDouble(std::string str) {
     double d;
     try {
-        d = static_cast<double>(std::stod(str));
+        if (!isdigit(str[0]) && str.length() == 1)
+            d = static_cast<double>(str[0]);
+        if (str[0] == '-')
+            d = static_cast<double>(-atof(str.c_str() + 1));
+        else
+            d = static_cast<double>(atof(str.c_str()));
+        if (d == 0 && str[0] != '0')
+            throw std::invalid_argument("Invalid argument");
+        // for (size_t j = 1; j < str.size(); ++j) {
+        //     if (!isdigit(str[j]) && str[j] != '.')
+        //         throw std::invalid_argument("Invalid argument");
+        //}
+        std::cout << GREEN << "double: " << std::fixed << std::setprecision(1) << d << RESET << std::endl;
     }
-    catch (std::exeption &e) {
+    catch (std::exception &e) {
         std::cout << RED << "double: impossible" << RESET << std::endl;
         return 0;
     }
-    std::cout << GREEN << "double: " << d << RESET << std::endl;
     return d;
 }
 
-static void convert(std::string str) {
+void ScalarConverter::convert(std::string str) {
     toChar(str);
     toInt(str);
     toFloat(str);
