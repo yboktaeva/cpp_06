@@ -6,7 +6,7 @@
 /*   By: yuboktae <yuboktae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 14:16:58 by yuliaboktae       #+#    #+#             */
-/*   Updated: 2023/12/09 18:04:13 by yuboktae         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:17:09 by yuboktae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 # include <iostream>
 # include <string>
-# include <sstream>
 # include <iomanip>
 # include <exception>
 # include <cmath>
 # include <cctype>
+# include <limits>
+# include <climits>
 
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
@@ -37,6 +38,13 @@ class ScalarConverter {
         static float toFloat(std::string str);
         static double toDouble(std::string str);
         static void convert(std::string str);
+    
+    class NonDisplayable : public std::exception {
+        public:
+            virtual const char *what() const throw();
+    };
 };
+
+bool isDigit(std::string str);
 
 #endif

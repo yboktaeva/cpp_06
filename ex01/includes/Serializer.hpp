@@ -6,7 +6,7 @@
 /*   By: yuboktae <yuboktae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 19:08:04 by yuboktae          #+#    #+#             */
-/*   Updated: 2023/12/08 19:11:46 by yuboktae         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:48:38 by yuboktae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <iostream>
 # include <string>
 # include <exception>
+# include <stdint.h>
 
 typedef struct Data {
     int n;
