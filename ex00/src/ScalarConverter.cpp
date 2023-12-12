@@ -6,7 +6,7 @@
 /*   By: yuboktae <yuboktae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 14:17:01 by yuliaboktae       #+#    #+#             */
-/*   Updated: 2023/12/11 19:21:38 by yuboktae         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:38:37 by yuboktae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &src) {
         *this = src;
     return *this;
 }
+
 char const *ScalarConverter::NonDisplayable::what() const throw() {
     return "Non displayable";
 }
 
-bool isDigit(std::string str) {
+bool isDigits(std::string str) {
     for (size_t i = 0; i < str.length(); i++) {
         if (!isdigit(str[i]) && str[i] != '.' && str[i] != 'f' && str[i] != '-' && str[i] != '+')
             return false;
@@ -42,7 +43,7 @@ char ScalarConverter::toChar(std:: string str) {
     try {
         if (!isdigit(str[0]) && str.length() == 1 && std::isprint(static_cast<unsigned char>(str[0])))
             c = static_cast<char>(str[0]);
-        else if (isDigit(str)) {
+        else if (isDigits(str)) {
             int n = atoi(str.c_str());
             if (n > CHAR_MAX || n < CHAR_MIN)
                 throw std::invalid_argument("Invalid argument");
@@ -72,7 +73,7 @@ int ScalarConverter::toInt(std::string str) {
     try {
         if (!isdigit(str[0]) && str.length() == 1)
             i = static_cast<int>(str[0]);
-        else if (isDigit(str)) {
+        else if (isDigits(str)) {
             l = strtol(str.c_str(), &end, 10);
             if (l > std::numeric_limits<int>::max() || l < std::numeric_limits<int>::min())
                 throw std::invalid_argument("Invalid argument");
@@ -96,11 +97,11 @@ float ScalarConverter::toFloat(std::string str) {
     try {
         if (!isdigit(str[0]) && str.length() == 1)
             f = static_cast<float>(str[0]);
-        else if (str[0] == '-' && str.length() > 1 && isDigit(str)) {
+        else if (str[0] == '-' && str.length() > 1 && isDigits(str)) {
             ld = strtold(str.c_str() + 1, &end);
             f = static_cast<float>(-ld);
         }
-        else if (isDigit(str)) {
+        else if (isDigits(str)) {
             ld = strtold(str.c_str(), &end);
             f = static_cast<float>(ld);
         }
@@ -124,11 +125,11 @@ double ScalarConverter::toDouble(std::string str) {
     try {
         if (!isdigit(str[0]) && str.length() == 1)
             d = static_cast<double>(str[0]);
-        else if (str[0] == '-' && str.length() > 1 && isDigit(str)) {
+        else if (str[0] == '-' && str.length() > 1 && isDigits(str)) {
             ld = strtold(str.c_str() + 1, &end);
             d = static_cast<double>(-ld);
         }
-        else if (isDigit(str)) {
+        else if (isDigits(str)) {
             ld = strtold(str.c_str(), &end);
             d = static_cast<double>(ld);
         }

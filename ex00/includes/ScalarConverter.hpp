@@ -6,7 +6,7 @@
 /*   By: yuboktae <yuboktae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 14:16:58 by yuliaboktae       #+#    #+#             */
-/*   Updated: 2023/12/11 19:17:09 by yuboktae         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:13:14 by yuboktae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ class ScalarConverter {
     };
 };
 
-bool isDigit(std::string str);
+bool isDigits(std::string str);
 
 #endif
